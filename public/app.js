@@ -18,4 +18,31 @@ $(function() {
   ably.connection.on('suspended', function() {
     $status.text('Oops, we still cannot reconnect you to Ably. We will keep trying...');
   });
+
+  /* Be present on global user channel and update UI as people enter & leaver */
+  var globalChannel = ably.channels.get('global');
+  globalChannel.presence.enter();
+
+  /* Update the GUI as users enter and leave the channel */
+  var $usersOnline = $('#users-online');
+  function userButtonElem(member, state) {
+    return $('<li><button id="user-' + member.connectionId +
+           '" type="button" class="btn btn-' + state + '">' +
+           member.clientId +
+           '</button></li>');
+  }
+
+  /* Present users are on the channel already when we've joined it */
+  globalChannel.presence.subscribe('present', function(message) {
+    $usersOnline.append(userButtonElem(message, 'default'));
+  });
+  globalChannel.presence.subscribe('enter', function(message) {
+    var btn = userButtonElem(message, 'success');
+    $usersOnline.append(btn);
+    setTimeout(function() { btn.find('button').removeClass('btn-success').addClass('btn-default'); }, 3000);
+  });
+  globalChannel.presence.subscribe('leave', function(message) {
+    var btn = $usersOnline.find('#user-' + message.connectionId).addClass('btn-warning');
+    setTimeout(function() { btn.parent().remove(); }, 3000);
+  });
 });

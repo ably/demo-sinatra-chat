@@ -1,0 +1,9 @@
+#users-online {
+  list-style: none;
+  padding: 0;
+}
+
+#users-online li {
+  padding: 10px;
+  float: left;
+}
