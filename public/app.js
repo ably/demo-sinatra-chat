@@ -15,15 +15,24 @@ $(function() {
   });
 
   /* Show the connection status in the UI */
-  var $status = $('#status');
+  var $status = $('#status'),
+      $leaveBtn = $('#leave');
+
   ably.connection.on('connected', function() {
     $status.text('You are connected to Ably');
+    $leaveBtn.show();
   });
   ably.connection.on('disconnected', function() {
     $status.text('Oops, your connection has gone, hold on, we are trying to reconnect');
   });
   ably.connection.on('suspended', function() {
     $status.text('Oops, we still cannot reconnect you to Ably. We will keep trying...');
+    $leaveBtn.hide();
+  });
+
+  $leaveBtn.on('click', function() {
+    ably.close();
+    document.location.href = '/';
   });
 
   /* Be present on global user channel and update UI as people enter & leaver */
