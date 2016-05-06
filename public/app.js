@@ -5,7 +5,14 @@ $(function() {
     return;
   }
 
-  var ably = new Ably.Realtime({ authUrl: '/token?nickname=' + escape(nickname) });
+  var ably = new Ably.Realtime({
+    authUrl: '/token?nickname=' + escape(nickname),
+    recover: function(lastConnectionDetails, cb) {
+       /* Ensures page refresh recovers connection if clientId is a match
+          see https://www.ably.io/documentation/realtime/connection/#connection-state-recovery */
+      cb(lastConnectionDetails.clientId == nickname);
+    }
+  });
 
   /* Show the connection status in the UI */
   var $status = $('#status');
