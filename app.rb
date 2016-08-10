@@ -35,3 +35,10 @@ get '/token' do
     json token
   end
 end
+
+get '/publish' do
+  ably = Ably::Rest.new(ENV['ABLY_API_KEY'])
+  channel = ably.channels.get('notification_channel')
+  channel.publish('test','notification channel is up!')
+  "Published!"
+end
