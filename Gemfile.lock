@@ -34,7 +34,7 @@ GEM
     multipart-post (2.0.0)
     mustermann (1.0.2)
     public_suffix (3.0.2)
-    rack (2.0.4)
+    rack (2.2.3)
     rack-protection (2.0.1)
       rack
     sinatra (2.0.1)
