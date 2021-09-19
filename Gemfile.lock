@@ -28,7 +28,7 @@ GEM
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     http_parser.rb (0.6.0)
-    json (2.1.0)
+    json (2.5.1)
     msgpack (1.2.4)
     multi_json (1.13.1)
     multipart-post (2.0.0)
